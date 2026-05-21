@@ -1,0 +1,388 @@
+student_records = []
+unique_subjects = set()
+
+
+def add_student():
+
+
+    student_id = int(input("Enter Student ID: "))
+    name = input("Enter Student Name: ")
+    age = int(input("Enter Student Age: "))
+    grade = input("Enter Student Grade: ")
+    dob = input("Enter Date of Birth (DD/MM/YYYY): ")
+
+    subjects_input = input(
+        "Enter Subjects (comma-separated): "
+    )
+
+    subjects_list = subjects_input.split(",")
+
+    clean_subjects = []
+
+    for subject in subjects_list:
+
+        formatted_subject = subject.strip().title()
+
+        clean_subjects.append(formatted_subject)
+
+        unique_subjects.add(formatted_subject)
+
+    immutable_data = (student_id, dob)
+
+    student_dictionary = {
+
+        "student_info": immutable_data,
+        "name": name.title(),
+        "age": age,
+        "grade": grade.upper(),
+        "subjects": clean_subjects
+    }
+
+    student_records.append(student_dictionary)
+
+    print("\nStudent record added successfully!")
+
+
+def display_students():
+
+    print("DISPLAY ALL STUDENTS")
+
+
+    if len(student_records) == 0:
+
+        print("No student records available.")
+
+    else:
+
+        counter = 1
+
+        for student in student_records:
+
+            print(f"\nStudent Record Number : {counter}")
+
+            student_id = student["student_info"][0]
+            dob = student["student_info"][1]
+
+            print("------------------------------------")
+
+            print(f"Student ID       : {student_id}")
+
+            print("Student Name     : {}".format(
+                student["name"])
+            )
+
+            print("Student Age      : %d" % (
+                student["age"])
+            )
+
+            print(f"Student Grade    : {student['grade']}")
+
+            print(f"Date of Birth    : {dob}")
+
+            print("Student Subjects : ", end="")
+
+            for subject in student["subjects"]:
+
+                print(subject, end="  ")
+
+            print("\n------------------------------------")
+
+            counter = counter + 1
+
+
+def update_student():
+
+    print("\n====================================")
+    print("       UPDATE STUDENT DETAILS")
+    print("====================================")
+
+    if len(student_records) == 0:
+
+        print("No student records found.")
+        return
+
+    search_id = int(
+        input("Enter Student ID to update: ")
+    )
+
+    student_found = False
+
+    for student in student_records:
+
+        student_id = student["student_info"][0]
+
+        if student_id == search_id:
+
+            student_found = True
+
+            print("\nSelect What You Want To Update")
+
+            print("1. Update Name")
+            print("2. Update Age")
+            print("3. Update Grade")
+            print("4. Update Subjects")
+
+            update_choice = input(
+                "Enter your choice: "
+            )
+
+            if update_choice == "1":
+
+                new_name = input(
+                    "Enter New Name: "
+                )
+
+                student["name"] = new_name.title()
+
+                print("Name updated successfully!")
+
+            elif update_choice == "2":
+
+                new_age = int(
+                    input("Enter New Age: ")
+                )
+
+                student["age"] = new_age
+
+                print("Age updated successfully!")
+
+            elif update_choice == "3":
+
+                new_grade = input(
+                    "Enter New Grade: "
+                )
+
+                student["grade"] = new_grade.upper()
+
+                print("Grade updated successfully!")
+
+            elif update_choice == "4":
+
+                new_subjects = input(
+                    "Enter New Subjects (comma-separated): "
+                )
+
+                subjects_list = new_subjects.split(",")
+
+                updated_subjects = []
+
+                for subject in subjects_list:
+
+                    formatted_subject = (
+                        subject.strip().title()
+                    )
+
+                    updated_subjects.append(
+                        formatted_subject
+                    )
+
+                    unique_subjects.add(
+                        formatted_subject
+                    )
+
+                student["subjects"] = updated_subjects
+
+                print("Subjects updated successfully!")
+
+            else:
+
+                print("Invalid choice!")
+
+            break
+
+    if student_found == False:
+
+        print("Student ID not found.")
+
+
+def delete_student():
+
+    print("\n====================================")
+    print("          DELETE STUDENT")
+    print("====================================")
+
+    if len(student_records) == 0:
+
+        print("No records available.")
+        return
+
+    search_id = int(
+        input("Enter Student ID to delete: ")
+    )
+
+    found = False
+
+    for index in range(len(student_records)):
+
+        current_student_id = (
+            student_records[index]["student_info"][0]
+        )
+
+        if current_student_id == search_id:
+
+            deleted_student_name = (
+                student_records[index]["name"]
+            )
+
+            del student_records[index]
+
+            print(
+                f"Student '{deleted_student_name}' deleted successfully!"
+            )
+
+            found = True
+
+            break
+
+    if found == False:
+
+        print("Student ID not found.")
+
+
+def display_unique_subjects():
+
+    print("\n====================================")
+    print("       DISPLAY UNIQUE SUBJECTS")
+    print("====================================")
+
+    if len(unique_subjects) == 0:
+
+        print("No subjects available.")
+
+    else:
+
+        subject_counter = 1
+
+        for subject in sorted(unique_subjects):
+
+            print(f"{subject_counter}. {subject}")
+
+            subject_counter = subject_counter + 1
+
+
+def search_student():
+
+    print("\n====================================")
+    print("          SEARCH STUDENT")
+    print("====================================")
+
+    if len(student_records) == 0:
+
+        print("No student records available.")
+        return
+
+    search_id = int(
+        input("Enter Student ID to search: ")
+    )
+
+    found = False
+
+    for student in student_records:
+
+        student_id = student["student_info"][0]
+
+        if student_id == search_id:
+
+            found = True
+
+            print("\nStudent Found Successfully!")
+
+            print("------------------------------------")
+
+            print(f"Student ID    : {student_id}")
+
+            print(f"Name          : {student['name']}")
+
+            print(f"Age           : {student['age']}")
+
+            print(f"Grade         : {student['grade']}")
+
+            print(
+                f"Date of Birth : {student['student_info'][1]}"
+            )
+
+            print("Subjects      : ", end="")
+
+            for subject in student["subjects"]:
+
+                print(subject, end="  ")
+
+            print("\n------------------------------------")
+
+            break
+
+    if found == False:
+
+        print("Student ID not found.")
+
+
+print("================================================")
+print("        WELCOME TO STUDENT DATA ORGANIZER")
+print("================================================")
+
+print("""
+This program can perform the following tasks:
+
+1. Add New Student
+2. Display All Students
+3. Update Student Details
+4. Delete Student Record
+5. Display Unique Subjects
+6. Search Student
+7. Exit Program
+""")
+
+while True:
+
+    print("\n====================================")
+    print("              MAIN MENU")
+    print("====================================")
+
+    print("1. Add Student")
+    print("2. Display All Students")
+    print("3. Update Student Information")
+    print("4. Delete Student")
+    print("5. Display Subjects Offered")
+    print("6. Search Student")
+    print("7. Exit")
+
+    choice = input("\nEnter your choice: ")
+
+    if choice == "1":
+
+        add_student()
+
+    elif choice == "2":
+
+        display_students()
+
+    elif choice == "3":
+
+        update_student()
+
+    elif choice == "4":
+
+        delete_student()
+
+    elif choice == "5":
+
+        display_unique_subjects()
+
+    elif choice == "6":
+
+        search_student()
+
+    elif choice == "7":
+
+        print("\n====================================")
+        print("Thank You For Using")
+        print("STUDENT DATA ORGANIZER")
+        print("Program Closed Successfully!")
+        print("====================================")
+
+        break
+
+    else:
+
+        print("Invalid choice!")
+        print("Please enter a number between 1 and 7.")
